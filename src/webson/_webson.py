@@ -40,7 +40,8 @@ from architecture.utils.functions import run_sync
 from intellibricks.llms import Synapse, SynapseCascade
 from intellibricks.llms.util import get_struct_from_schema
 from markdownify import markdownify as md
-from playwright.async_api import async_playwright
+from playwright.async_api import async_playwright, Browser
+from playwright.async_api._generated import Playwright as AsyncPlaywright
 
 from ._const import SYSTEM_PROMPT
 from ._types import JsonSchema
@@ -119,15 +120,16 @@ class Webson(msgspec.Struct):
         """
         return run_sync(self.get_contents_async, url)
 
-    async def get_contents_async(self, url: str) -> str:
+    async def get_contents_async(self, url: str, browser: Browser | None = None) -> str:
         """
         Asynchronously retrieves the entire HTML content of a webpage using Playwright.
 
-        This method launches a headless Chromium browser, opens a new page,
+        This method launches a headless Chromium browser (if browser not provided), opens a new page,
         navigates to the specified URL, and returns the page's HTML content.
 
         Args:
             url (str): The URL of the webpage to retrieve.
+            browser (Browser | None): Optional Playwright browser instance to reuse.
 
         Returns:
             str: The HTML content of the webpage.
@@ -136,15 +138,30 @@ class Webson(msgspec.Struct):
             >>> contents = await webson.get_contents_async("https://example.com")
             >>> print(contents)
         """
-        async with async_playwright() as p:
-            chromium = p.chromium
-            browser = await chromium.launch(headless=True)
-            page = await browser.new_page()
+        if browser is None:
+            async with async_playwright() as p:
+                return await self._get_contents(url, p)
+        else:
+            return await self._get_contents_with_browser(url, browser)
+
+    async def _get_contents(self, url: str, playwright: AsyncPlaywright) -> str:
+        """Helper method to handle content retrieval with a new Playwright instance."""
+        chromium = playwright.chromium
+        browser = await chromium.launch(headless=True)
+        try:
+            return await self._get_contents_with_browser(url, browser)
+        finally:
+            await browser.close()
+
+    async def _get_contents_with_browser(self, url: str, browser: Browser) -> str:
+        """Helper method to retrieve content using an existing browser instance."""
+        page = await browser.new_page()
+        try:
             await page.goto(url, timeout=self.timeout)
             debug_logger.debug("Getting page contents")
-            contents = await page.content()
-            await browser.close()  # Good practice to close the browser
-            return contents
+            return await page.content()
+        finally:
+            await page.close()
 
     def cast[T: msgspec.Struct](self, url: str, *, to: type[T]) -> T:
         """
