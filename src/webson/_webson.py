@@ -222,6 +222,7 @@ class Webson(msgspec.Struct):
             f"<page>\n\n{page_md}\n\n</page>",
             system_prompt=SYSTEM_PROMPT,
             response_model=to,
+            timeout=self.timeout
         )
         return completion.parsed
 
