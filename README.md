@@ -73,8 +73,7 @@ class PageSummary(msgspec.Struct):
     summary: Annotated[
       str,
       msgspec.Meta(
-        description="Here, you will insert a short summary of the page, "
-        "its contents etc.")
+        description="A short summary of the page")
     ]
 
 # Initialize your LLM (using IntelliBricks Synapse) and Webson
