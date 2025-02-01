@@ -1,5 +1,5 @@
 # Changelog
 
-## v0.1.0
+## v0.1.1
 
-- feat: new parameter to allow reusing an open browser.
+- adding browser to cast method too

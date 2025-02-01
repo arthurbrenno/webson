@@ -163,7 +163,9 @@ class Webson(msgspec.Struct):
         finally:
             await page.close()
 
-    def cast[T: msgspec.Struct](self, url: str, *, to: type[T]) -> T:
+    def cast[T: msgspec.Struct](
+        self, url: str, *, to: type[T], browser: Browser | None = None
+    ) -> T:
         """
         Synchronously casts a webpage's content into a structured output.
 
@@ -185,9 +187,11 @@ class Webson(msgspec.Struct):
             >>> data = webson.cast("https://example.com", to=PageData)
             >>> print(data.title)
         """
-        return run_sync(self.cast_async, url, to=to)
+        return run_sync(self.cast_async, url, to=to, browser=browser)
 
-    async def cast_async[T: msgspec.Struct](self, url: str, *, to: type[T]) -> T:
+    async def cast_async[T: msgspec.Struct](
+        self, url: str, *, to: type[T], browser: Browser | None = None
+    ) -> T:
         """
         Asynchronously casts a webpage's content into a structured output.
 
@@ -208,7 +212,7 @@ class Webson(msgspec.Struct):
             >>> print(structured_data)
         """
         # Retrieve the raw HTML page contents asynchronously.
-        page_contents = await self.get_contents_async(url)
+        page_contents = await self.get_contents_async(url, browser=browser)
 
         # Convert the HTML to markdown for easier parsing.
         page_md = cast(str, md(page_contents))
