@@ -83,7 +83,7 @@ webson = Webson(llm=llm, timeout=5000)
 # Cast the webpage content into your structured model
 structured_data = webson.cast("https://example.com", to=PageSummary)
 print(f"Title: {structured_data.title}")
-print(f"Content: {structured_data.content}")
+print(f"Content: {structured_data.summary}")
 ```
 
 ### 2. High-Level Query to Struct
