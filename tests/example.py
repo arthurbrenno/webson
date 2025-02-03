@@ -17,8 +17,6 @@ class EditaisResult(msgspec.Struct):
 
 webson = Webson(llm=Synapse.of("google/genai/gemini-1.5-flash"))
 
-url = "https://prosas.com.br/editais"
+result = webson.cast(EditaisResult, "https://prosas.com.br/editais")
 
-casted = webson.cast(EditaisResult, url)
-
-debug_logger.debug(casted)
+debug_logger.debug(result)

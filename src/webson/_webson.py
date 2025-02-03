@@ -140,9 +140,13 @@ class Webson(msgspec.Struct):
         """
         if browser is None:
             async with async_playwright() as p:
-                return await self._get_contents(url, p)
+                contents = await self._get_contents(url, p)
+                debug_logger.debug(f"Page contents: {contents[:100]}")
+                return contents
         else:
-            return await self._get_contents_with_browser(url, browser)
+            contents = await self._get_contents_with_browser(url, browser)
+            debug_logger.debug(f"Page contents: {contents[:100]}")
+            return contents
 
     async def _get_contents(self, url: str, playwright: AsyncPlaywright) -> str:
         """Helper method to handle content retrieval with a new Playwright instance."""
