@@ -15,10 +15,10 @@ class EditaisResult(msgspec.Struct):
     editais: list[Edital]
 
 
-webson = Webson(llm=Synapse.of("google/genai/gemini-2.0-flash-exp"))
+webson = Webson(llm=Synapse.of("google/genai/gemini-1.5-flash"))
 
 url = "https://prosas.com.br/editais"
 
-casted = webson.cast(url, to=EditaisResult)
+casted = webson.cast(EditaisResult, url)
 
 debug_logger.debug(casted)

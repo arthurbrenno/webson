@@ -164,7 +164,7 @@ class Webson(msgspec.Struct):
             await page.close()
 
     def cast[T: msgspec.Struct](
-        self, url: str, *, to: type[T], browser: Browser | None = None
+        self, typ: type[T], url: str, *, browser: Browser | None = None, extra_detail: str | None = None
     ) -> T:
         """
         Synchronously casts a webpage's content into a structured output.
@@ -187,10 +187,10 @@ class Webson(msgspec.Struct):
             >>> data = webson.cast("https://example.com", to=PageData)
             >>> print(data.title)
         """
-        return run_sync(self.cast_async, url, to=to, browser=browser)
+        return run_sync(self.cast_async, typ, url, browser=browser, extra_detail=extra_detail)
 
     async def cast_async[T: msgspec.Struct](
-        self, url: str, *, to: type[T], browser: Browser | None = None
+        self, typ: type[T], url: str, *, browser: Browser | None = None, extra_detail: str | None = None
     ) -> T:
         """
         Asynchronously casts a webpage's content into a structured output.
@@ -201,14 +201,14 @@ class Webson(msgspec.Struct):
             3. Uses the underlying LLM to generate a structured output based on the provided schema.
 
         Args:
+            typ (type[T]): The msgspec.Struct subclass type defining the desired output structure.
             url (str): The URL of the webpage to cast.
-            to (type[T]): The msgspec.Struct subclass type defining the desired output structure.
 
         Returns:
             T: An instance of the structured output as defined by the `to` type.
 
         Example:
-            >>> structured_data = await webson.cast_async("https://example.com", to=PageData)
+            >>> structured_data = await webson.cast_async(PageData, "https://example.com")
             >>> print(structured_data)
         """
         # Retrieve the raw HTML page contents asynchronously.
@@ -216,12 +216,14 @@ class Webson(msgspec.Struct):
 
         # Convert the HTML to markdown for easier parsing.
         page_md = cast(str, md(page_contents))
+        
+        extra = f"## Extra details: \n\n {extra_detail}" if extra_detail else ""
 
         # Use the LLM to generate a structured response based on the markdown.
         completion = await self.llm.complete_async(
-            f"<page>\n\n{page_md}\n\n</page>",
+            f"<page>\n\n{page_md}\n\n</page> \n\n {extra}",
             system_prompt=SYSTEM_PROMPT,
-            response_model=to,
+            response_model=typ,
             timeout=self.timeout
         )
         return completion.parsed

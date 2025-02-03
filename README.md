@@ -81,7 +81,7 @@ llm = Synapse.of("google/genai/gemini-pro-experimental")
 webson = Webson(llm=llm, timeout=5000)
 
 # Cast the webpage content into your structured model
-structured_data = webson.cast("https://example.com", to=PageSummary)
+structured_data = webson.cast(PageSummary, "https://example.com")
 print(f"Title: {structured_data.title}")
 print(f"Content: {structured_data.summary}")
 ```
