@@ -168,7 +168,7 @@ class Webson(msgspec.Struct):
             await page.close()
 
     def cast[T: msgspec.Struct](
-        self, typ: type[T], url: str, *, browser: Browser | None = None, extra_detail: str | None = None
+        self, typ: type[T], url: str, *, browser: Browser | None = None, details: str | None = None
     ) -> T:
         """
         Synchronously casts a webpage's content into a structured output.
@@ -191,10 +191,10 @@ class Webson(msgspec.Struct):
             >>> data = webson.cast("https://example.com", to=PageData)
             >>> print(data.title)
         """
-        return run_sync(self.cast_async, typ, url, browser=browser, extra_detail=extra_detail)
+        return run_sync(self.cast_async, typ, url, browser=browser, details=details)
 
     async def cast_async[T: msgspec.Struct](
-        self, typ: type[T], url: str, *, browser: Browser | None = None, extra_detail: str | None = None
+        self, typ: type[T], url: str, *, browser: Browser | None = None, details: str | None = None
     ) -> T:
         """
         Asynchronously casts a webpage's content into a structured output.
@@ -221,7 +221,7 @@ class Webson(msgspec.Struct):
         # Convert the HTML to markdown for easier parsing.
         page_md = cast(str, md(page_contents))
         
-        extra = f"## Extra details: \n\n {extra_detail}" if extra_detail else ""
+        extra = f"## Extra details: \n\n {details}" if details else ""
 
         # Use the LLM to generate a structured response based on the markdown.
         completion = await self.llm.complete_async(
