@@ -142,7 +142,7 @@ wheels = [
 
 [[package]]
 name = "google-genai"
-version = "0.8.0"
+version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "google-auth" },
@@ -150,9 +150,9 @@ dependencies = [
     { name = "requests" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d2/ef/d5a57aa9360f31b3a3b726fa4d0cc8b2ea14e3a6a0c482cca74a28ab5392/google_genai-0.8.0.tar.gz", hash = "sha256:b5730bcb144177cfcf6cfe44ab59611f8dec3f7c44599cfb321d5d71856a910e", size = 118835 }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/c3/fba38ba11a9b97b0a6ca6d46ec0dcd3c7bdf3ecf83eec6e6117ac25106c7/google_genai-1.0.0.tar.gz", hash = "sha256:15712abb808f891a14eafc9edf21b8cf92ea952f627dd0e2e939657efd234acd", size = 122958 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/74/6d/c5b1757ffe28fdfb38df3fda79c614ec840ebac0b72a3fcbe2ed969e254d/google_genai-0.8.0-py3-none-any.whl", hash = "sha256:dbaea9054f0e3547d9e5810390304574808d9cb5d77198b8a247f497271c8254", size = 125385 },
+    { url = "https://files.pythonhosted.org/packages/24/9d/63dbd2b6c630f44cbbf09c4e04b4c9012da01f6e585d34ae53d07931bb67/google_genai-1.0.0-py3-none-any.whl", hash = "sha256:e9c3abd48f46ecb2b0a51efa7f65c6830b50f9784df603a91019b43918a7531f", size = 129418 },
 ]
 
 [[package]]
@@ -253,7 +253,7 @@ wheels = [
 
 [[package]]
 name = "intellibricks"
-version = "0.7.24"
+version = "0.8.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "architecture" },
@@ -264,12 +264,13 @@ dependencies = [
     { name = "langfuse" },
     { name = "msgspec" },
     { name = "mypy" },
+    { name = "ollama" },
     { name = "openai" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/17/ef/5470b23c4cb20eaa520789fc8a0eeb2a9f84056ba3591ac07fe1bcebac6c/intellibricks-0.7.24.tar.gz", hash = "sha256:2bc62020c9f24a3bd1f16d0797e232fefb3dadaa82305ead380b5c758560822f", size = 2266626 }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/89/dab38ca04b7bb784f42d8e3610026a5e5c0fff50c7fb78bc61cfc3e69a7d/intellibricks-0.8.5.tar.gz", hash = "sha256:9a6e8257f00d6a403f32a423dbf3fcad5810f3f7f5ebbb09c6e0270b3a14e981", size = 2234276 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0b/5f/4692669fedfe8990d64e03bf7118594014d55b17f8997d6868226b783b01/intellibricks-0.7.24-py3-none-any.whl", hash = "sha256:5798e48682446441a814db03236e74b7c7d03b2c3198cc84d7832b11fff48c50", size = 140264 },
+    { url = "https://files.pythonhosted.org/packages/56/19/945c98bef173879511918fe8ca07fb81de74d8c7d27f8a75840eefa121cb/intellibricks-0.8.5-py3-none-any.whl", hash = "sha256:20f9a66852bea1fc0e1071ac6dbbd6c0d36df1048e12fbb9ea556ee0858f63cd", size = 109248 },
 ]
 
 [[package]]
@@ -484,6 +485,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/98/a4/1ab47638b92648243faf97a5aeb6ea83059cc3624972ab6b8d2316078d3f/mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782", size = 4433 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/e2/5d3f6ada4297caebe1a2add3b126fe800c96f56dbe5d1988a2cbe0b267aa/mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d", size = 4695 },
+]
+
+[[package]]
+name = "ollama"
+version = "0.4.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b0/6d/dc77539c735bbed5d0c873fb029fb86aa9f0163df169b34152914331c369/ollama-0.4.7.tar.gz", hash = "sha256:891dcbe54f55397d82d289c459de0ea897e103b86a3f1fad0fdb1895922a75ff", size = 12843 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/31/83/c3ffac86906c10184c88c2e916460806b072a2cfe34cdcaf3a0c0e836d39/ollama-0.4.7-py3-none-any.whl", hash = "sha256:85505663cca67a83707be5fb3aeff0ea72e67846cea5985529d8eca4366564a1", size = 13210 },
 ]
 
 [[package]]
@@ -884,7 +898,7 @@ wheels = [
 
 [[package]]
 name = "webson"
-version = "0.0.2"
+version = "0.1.4"
 source = { editable = "." }
 dependencies = [
     { name = "architecture" },

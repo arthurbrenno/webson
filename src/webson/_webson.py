@@ -37,7 +37,7 @@ from typing import TYPE_CHECKING, cast, Any, Sequence
 import msgspec
 from architecture import log
 from architecture.utils.functions import run_sync
-from intellibricks.llms import Synapse, SynapseCascade
+from intellibricks.llms import Synapse, SynapseCascade, SynapseProtocol
 from intellibricks.llms.util import get_struct_from_schema
 from markdownify import markdownify as md
 from playwright.async_api import async_playwright, Browser
@@ -59,20 +59,20 @@ class Webson(msgspec.Struct):
     A class for extracting webpage contents and converting them into structured data using an LLM.
 
     Attributes:
-        llm (Synapse | SynapseCascade):
+        llm (SynapseProtocol):
             The underlying LLM interface used for generating structured outputs.
         timeout (int | None):
             Optional timeout (in milliseconds) for page loads in Playwright.
     """
 
-    llm: Synapse | SynapseCascade
+    llm: SynapseProtocol
     """The synapse weaver used to perform its operations."""
 
     timeout: int | None = None
     """Timeout (in milliseconds) to use for page loads. If None, the default timeout is used."""
 
     @classmethod
-    def create(cls, llm: Synapse | SynapseCascade | OpenAI | None) -> Webson:
+    def create(cls, llm: SynapseProtocol | OpenAI | None) -> Webson:
         """
         Creates a Webson instance from an LLM instance.
 
@@ -80,7 +80,7 @@ class Webson(msgspec.Struct):
         When an OpenAI instance is provided, it wraps it as a Synapse using the 'gpt-4o' model.
 
         Args:
-            llm (Synapse | SynapseCascade | OpenAI): The LLM instance to be used.
+            llm (SynapseProtocol | OpenAI): The LLM instance to be used.
 
         Returns:
             Webson: A new instance of Webson configured with the appropriate llm.
