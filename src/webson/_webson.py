@@ -56,7 +56,7 @@ debug_logger = log.create_logger(__name__, level=log.DEBUG)
 
 class Webson(msgspec.Struct):
     """
-    A class for extracting webpage contents and converting them into structured data using an LLM.
+    A class for extracting webpage contents and converting them into structured data using an LLMs.
 
     Attributes:
         llm (SynapseProtocol):
